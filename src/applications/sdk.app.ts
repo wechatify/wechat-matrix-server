@@ -1,11 +1,16 @@
-import { Application, ApplicationConfigs } from "@braken/application";
-import { Controller } from "@braken/http";
 import Logger from "@braken/logger";
 import TypeORM from "@braken/typeorm";
-import { IProxy, SDK, WechatLoginWithQrcodeCustomRequest, WechatPersonalInfoCustomResponse, WechatPlatformSDKProps } from "wechatify-sdk";
 import WechatEntity, { WECHAT_STATUS } from "../entities/wechat.entity";
 import WechatCache from "../caches/wechat.cache";
 import WechatLogsEntity, { WECHAT_ACTIONS } from "../entities/wechat.logs.entity";
+import { Application, ApplicationConfigs } from "@braken/application";
+import {
+  SDK,
+  IProxy,
+  WechatLoginWithQrcodeCustomRequest,
+  WechatPersonalInfoCustomResponse,
+  WechatPlatformSDKProps
+} from "wechatify-sdk";
 
 @Application.Injectable
 export default class ApiSDK extends Application {
@@ -15,13 +20,13 @@ export default class ApiSDK extends Application {
     ApplicationConfigs.set(ApiSDK.namespace, options);
   }
 
-  @Controller.Inject(TypeORM)
+  @Application.Inject(TypeORM)
   private readonly typeorm: TypeORM;
 
-  @Controller.Inject(Logger)
+  @Application.Inject(Logger)
   private readonly logger: Logger;
 
-  @Controller.Inject(WechatCache)
+  @Application.Inject(WechatCache)
   private readonly WechatCache: WechatCache;
 
   public initialize() {
