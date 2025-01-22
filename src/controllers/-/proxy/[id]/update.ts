@@ -1,18 +1,18 @@
 import JSONErrorWare from "../../../../middlewares/json.ware";
 import HttpBodyWare from "../../../../middlewares/body.ware";
-import LoginWare from "../../../../middlewares/user/login.ware";
 import TypeORM from "@braken/typeorm";
 import ProxyEntity from "../../../../entities/proxy.entity";
 import { Exception, IProxy } from "wechatify-sdk";
 import { Controller } from "@braken/http";
 import ProxyCache from "../../../../caches/proxy.cache";
+import AdminWare from "../../../../middlewares/user/admin.ware";
 
 /**
  * 更新代理
  */
 @Controller.Injectable
 @Controller.Method('POST')
-@Controller.Middleware(JSONErrorWare, HttpBodyWare, LoginWare)
+@Controller.Middleware(JSONErrorWare, HttpBodyWare, AdminWare)
 export class ProxyUpdateController extends Controller {
   @Controller.Parameter('path', Number)
   private readonly id: number;

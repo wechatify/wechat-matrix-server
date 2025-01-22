@@ -1,17 +1,17 @@
 import JSONErrorWare from "../../../../middlewares/json.ware";
-import LoginWare from "../../../../middlewares/user/login.ware";
 import TypeORM from "@braken/typeorm";
 import ProxyEntity from "../../../../entities/proxy.entity";
 import { Exception } from "wechatify-sdk";
 import { Controller } from "@braken/http";
 import ProxyCache from "../../../../caches/proxy.cache";
+import AdminWare from "../../../../middlewares/user/admin.ware";
 
 /**
  * 删除代理
  */
 @Controller.Injectable
 @Controller.Method('DELETE')
-@Controller.Middleware(JSONErrorWare, LoginWare)
+@Controller.Middleware(JSONErrorWare, AdminWare)
 export class ProxyRemoveController extends Controller {
   @Controller.Parameter('path', Number)
   private readonly id: number;

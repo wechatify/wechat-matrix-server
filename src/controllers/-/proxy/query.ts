@@ -1,16 +1,16 @@
 import JSONErrorWare from "../../../middlewares/json.ware";
-import LoginWare from "../../../middlewares/user/login.ware";
 import TypeORM from "@braken/typeorm";
 import ProxyEntity from "../../../entities/proxy.entity";
 import { Controller } from "@braken/http";
 import { toNumber } from "../../../utils";
+import AdminWare from "../../../middlewares/user/admin.ware";
 
 /**
  * 代理列表
  */
 @Controller.Injectable
 @Controller.Method('GET')
-@Controller.Middleware(JSONErrorWare, LoginWare)
+@Controller.Middleware(JSONErrorWare, AdminWare)
 export class ProxyQueryController extends Controller {
   @Controller.Parameter('query', toNumber(1))
   private readonly page: number;
