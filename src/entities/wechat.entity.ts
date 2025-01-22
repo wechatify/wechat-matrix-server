@@ -108,14 +108,17 @@ export default class WechatEntity {
   public device_name: string;
 
   @Column({
-    type: 'json',
-    nullable: true,
+    type: 'integer',
+    default: 0,
   })
-  public proxy: {
-    address: string,
-    username: string,
-    password: string,
-  };
+  public proxy: number;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+  })
+  public uuid: string;
 
   @Index('lut-idx')
   @Column({

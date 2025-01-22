@@ -11,6 +11,7 @@ import {
   WechatPersonalInfoCustomResponse,
   WechatPlatformSDKProps
 } from "wechatify-sdk";
+import ProxyEntity from "../entities/proxy.entity";
 
 @Application.Injectable
 export default class ApiSDK extends Application {
@@ -33,8 +34,8 @@ export default class ApiSDK extends Application {
     const props: WechatPlatformSDKProps = ApplicationConfigs.get(ApiSDK.namespace);
     const sdk = new SDK(props);
     Object.defineProperty(this, 'instance', { value: sdk });
-    this.instance.on('online', (timestamp: number, wxid: string, info: WechatPersonalInfoCustomResponse, meta: WechatLoginWithQrcodeCustomRequest) => {
-      this.online(timestamp, wxid, info, meta).catch(e => this.logger.error(e));
+    this.instance.on('online', (timestamp: number, wxid: string, uuid: string, info: WechatPersonalInfoCustomResponse, meta: WechatLoginWithQrcodeCustomRequest) => {
+      this.online(timestamp, wxid, uuid, info, meta).catch(e => this.logger.error(e));
     })
     this.instance.on('offline', (timestamp: number, wxid: string) => {
       this.offline(timestamp, wxid).catch(e => this.logger.error(e));
@@ -62,13 +63,26 @@ export default class ApiSDK extends Application {
     return Logs.save(log);
   }
 
-  private async online(timestamp: number, wxid: string, info: WechatPersonalInfoCustomResponse, meta: WechatLoginWithQrcodeCustomRequest) {
+  public async online(timestamp: number, wxid: string, uuid: string, info: WechatPersonalInfoCustomResponse, meta: WechatLoginWithQrcodeCustomRequest) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
     if (!wechat) {
       wechat = Wechat.create();
       wechat.wxid = wxid;
+    } else {
+      if (uuid === wechat.uuid) return wechat;
     }
+
+    let proxy_id = 0;
+
+    if (meta.proxy?.address) {
+      const Proxy = this.typeorm.connection.manager.getRepository(ProxyEntity);
+      const proxy = await Proxy.findOneBy({ address: meta.proxy.address });
+      if (proxy) {
+        proxy_id = proxy.id;
+      }
+    }
+
     wechat.avatar = info.imgHead;
     wechat.city = info.city;
     wechat.country = info.country;
@@ -83,8 +97,9 @@ export default class ApiSDK extends Application {
     wechat.last_login_time = new Date(timestamp);
     wechat.device_id = meta.deviceId;
     wechat.device_name = meta.deviceName;
-    wechat.proxy = meta.proxy;
+    wechat.proxy = proxy_id;
     wechat.invalid = false;
+    wechat.uuid = uuid;
     wechat = await Wechat.save(wechat);
     await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.ONLINE);
     await this.WechatCache.$write({ wxid });
@@ -106,7 +121,15 @@ export default class ApiSDK extends Application {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
     if (wechat) {
-      wechat.proxy = proxy;
+      let proxy_id = 0;
+      if (proxy?.address) {
+        const Proxy = this.typeorm.connection.manager.getRepository(ProxyEntity);
+        const _proxy = await Proxy.findOneBy({ address: proxy.address });
+        if (_proxy) {
+          proxy_id = _proxy.id;
+        }
+      }
+      wechat.proxy = proxy_id;
       wechat = await Wechat.save(wechat);
       await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.PROXY);
       await this.WechatCache.$write({ wxid });
