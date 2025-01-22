@@ -26,6 +26,8 @@ export class WechatRemoveController extends Controller {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     const wechat = await Wechat.findOneBy({ id: this.id });
     if (!wechat) throw new Exception(500, '找不到微信');
-    return await this.sdk.instance.delete(wechat.wxid)
+    await this.sdk.instance.delete(wechat.wxid);
+    await this.sdk.remove(Date.now(), wechat.wxid);
+    return Date.now();
   }
 }

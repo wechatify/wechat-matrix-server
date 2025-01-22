@@ -106,7 +106,7 @@ export default class ApiSDK extends Application {
     return wechat;
   }
 
-  private async offline(timestamp: number, wxid: string) {
+  public async offline(timestamp: number, wxid: string) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
     if (wechat && wechat.status !== WECHAT_STATUS.OFFLINE) {
@@ -117,7 +117,7 @@ export default class ApiSDK extends Application {
     }
   }
 
-  private async proxy(timestamp: number, wxid: string, proxy: IProxy) {
+  public async proxy(timestamp: number, wxid: string, proxy: IProxy) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
     if (wechat) {
@@ -129,10 +129,12 @@ export default class ApiSDK extends Application {
           proxy_id = _proxy.id;
         }
       }
-      wechat.proxy = proxy_id;
-      wechat = await Wechat.save(wechat);
-      await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.PROXY);
-      await this.WechatCache.$write({ wxid });
+      if (wechat.proxy !== proxy_id) {
+        wechat.proxy = proxy_id;
+        wechat = await Wechat.save(wechat);
+        await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.PROXY);
+        await this.WechatCache.$write({ wxid });
+      }
     }
   }
 
@@ -155,7 +157,7 @@ export default class ApiSDK extends Application {
     }
   }
 
-  private async remove(timestamp: number, wxid: string) {
+  public async remove(timestamp: number, wxid: string) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
     if (wechat && wechat.invalid !== true) {

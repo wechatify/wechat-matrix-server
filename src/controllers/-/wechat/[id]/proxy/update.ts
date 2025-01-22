@@ -40,10 +40,16 @@ export class WechatProxyUpdateController extends Controller {
     if (!this.body.proxy) throw new Exception(500, '请选择需要更新的代理');
     const proxy: ProxyEntity = await this.ProxyCache.$read({ id: this.body.proxy });
     if (!proxy) throw new Exception(500, '找不到代理');
-    return await this.sdk.instance.updateProxy(wechat.wxid, {
+
+    const data = {
       address: proxy.address,
       username: proxy.username,
       password: proxy.password,
-    })
+    }
+
+    await this.sdk.instance.updateProxy(wechat.wxid, data);
+    await this.sdk.proxy(Date.now(), wechat.wxid, data);
+
+    return Date.now();
   }
 }

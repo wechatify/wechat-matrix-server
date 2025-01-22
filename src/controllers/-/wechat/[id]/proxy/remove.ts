@@ -26,6 +26,12 @@ export class WechatProxyRemoveController extends Controller {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     const wechat = await Wechat.findOneBy({ id: this.id });
     if (!wechat) throw new Exception(500, '找不到微信');
-    return await this.sdk.instance.deleteProxy(wechat.wxid);
+    await this.sdk.instance.deleteProxy(wechat.wxid);
+    await this.sdk.proxy(Date.now(), wechat.wxid, {
+      address: null,
+      username: null,
+      password: null,
+    })
+    return Date.now();
   }
 }
