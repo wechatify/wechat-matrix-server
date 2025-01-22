@@ -9,4 +9,15 @@ export interface Props {
   http: HttpProps,
   env?: 'development' | 'production',
   api: WechatPlatformSDKProps,
+  mail: MailProps,
+}
+
+export interface MailProps {
+  host: string,
+  port: number,
+  secure: boolean,
+  auth: {
+    user: string,
+    pass: string,
+  },
 }

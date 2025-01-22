@@ -47,6 +47,9 @@ importers:
       '@types/koa':
         specifier: ^2.15.0
         version: 2.15.0
+      '@types/nodemailer':
+        specifier: ^6.4.17
+        version: 6.4.17
       '@types/randomstring':
         specifier: ^1.3.0
         version: 1.3.0
@@ -65,6 +68,9 @@ importers:
       koa-body:
         specifier: ^6.0.1
         version: 6.0.1
+      nodemailer:
+        specifier: ^6.9.16
+        version: 6.9.16
       randomstring:
         specifier: ^1.3.1
         version: 1.3.1
@@ -72,8 +78,8 @@ importers:
         specifier: ^0.3.20
         version: 0.3.20(ioredis@5.4.2)(ts-node@10.9.2(@types/node@22.10.7)(typescript@5.7.3))
       wechatify-sdk:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
     devDependencies:
       fix-esm-import-path:
         specifier: ^1.10.1
@@ -216,6 +222,9 @@ packages:
 
   '@types/node@22.10.7':
     resolution: {integrity: sha512-V09KvXxFiutGp6B7XkpaDXlNadZxrzajcY50EuoLIpQ6WWYCSvf19lVIazzfIzQvhUN2HjX12spLojTnhuKlGg==}
+
+  '@types/nodemailer@6.4.17':
+    resolution: {integrity: sha512-I9CCaIp6DTldEg7vyUTZi8+9Vo0hi1/T8gv3C89yk1rSAAzoKQ8H8ki/jBYJSFoH/BisgLP8tkZMlQ91CIquww==}
 
   '@types/qs@6.9.18':
     resolution: {integrity: sha512-kK7dgTYDyGqS+e2Q4aK9X3D7q234CIZ1Bv0q/7Z5IwRDoADNU81xXJK/YVyLbLTZCoIwUoDoffFeF+p/eIklAA==}
@@ -669,6 +678,10 @@ packages:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
 
+  nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
+
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -952,8 +965,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  wechatify-sdk@1.0.0:
-    resolution: {integrity: sha512-QgPwnxC47i8qzFGJ+tZcxeq3x0vp/78COwyM0wJmRShhrda/4jhtz3vh+PLWqRGQwZFyRfcoAC66pg1hcEPBlQ==}
+  wechatify-sdk@1.0.1:
+    resolution: {integrity: sha512-X+0FdeElaiGiUYVYEzatzu3Bq120II5joJVfqd/tXNnrPZbLRbeXksBYWU/1b4eMlFOH+XfvuTLmNkRAl/zeOw==}
 
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
@@ -1227,6 +1240,10 @@ snapshots:
   '@types/node@22.10.7':
     dependencies:
       undici-types: 6.20.0
+
+  '@types/nodemailer@6.4.17':
+    dependencies:
+      '@types/node': 22.10.7
 
   '@types/qs@6.9.18': {}
 
@@ -1688,6 +1705,8 @@ snapshots:
 
   negotiator@0.6.3: {}
 
+  nodemailer@6.9.16: {}
+
   object-assign@4.1.1: {}
 
   object-inspect@1.13.3: {}
@@ -1917,7 +1936,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  wechatify-sdk@1.0.0:
+  wechatify-sdk@1.0.1:
     dependencies:
       axios: 1.7.9
     transitivePeerDependencies:

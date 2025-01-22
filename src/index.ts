@@ -6,10 +6,11 @@ import Logger from '@braken/logger';
 import HttpTypeormPlugin from '@braken/http-plugin-typeorm';
 import CacheServer from '@braken/cache';
 import RedisCache from '@braken/cache-ioredis';
+import ApiSDK from './applications/sdk.app';
+import Mailer from './applications/mailer.app';
 import { Props } from './types';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
-import ApiSDK from './applications/sdk.app';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const __controllers = resolve(__dirname, 'controllers');
@@ -24,6 +25,7 @@ export default (props: Props) => BootStrap(async (ctx, logger) => {
 
   Http.set(props.http);
   Redis.set(props.redis);
+  Mailer.set(props.mail);
   ApiSDK.set(props.api);
   TypeORM.set({
     entityPrefix: props.http.keys.join('_') + '_',

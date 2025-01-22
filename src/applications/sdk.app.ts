@@ -94,7 +94,7 @@ export default class ApiSDK extends Application {
   private async offline(timestamp: number, wxid: string) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
-    if (wechat) {
+    if (wechat && wechat.status !== WECHAT_STATUS.OFFLINE) {
       wechat.status = WECHAT_STATUS.OFFLINE;
       wechat = await Wechat.save(wechat);
       await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.OFFLINE);
@@ -116,7 +116,7 @@ export default class ApiSDK extends Application {
   private async forbiden(timestamp: number, wxid: string) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
-    if (wechat) {
+    if (wechat && wechat.status !== WECHAT_STATUS.FORBIDEN) {
       wechat.status = WECHAT_STATUS.FORBIDEN;
       wechat = await Wechat.save(wechat);
       await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.FORBIDEN);
@@ -135,7 +135,7 @@ export default class ApiSDK extends Application {
   private async remove(timestamp: number, wxid: string) {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     let wechat = await Wechat.findOneBy({ wxid });
-    if (wechat) {
+    if (wechat && wechat.invalid !== true) {
       wechat.invalid = true;
       wechat = await Wechat.save(wechat);
       await this.saveLog(wechat.id, timestamp, WECHAT_ACTIONS.REMOVE);
