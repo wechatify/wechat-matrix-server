@@ -14,6 +14,7 @@ export default class extends Controller {
   private readonly sdk: ApiSDK;
 
   public async response() {
+    console.log('event.body', this.body)
     this.sdk.instance.receive(this.body);
     return Date.now();
   }

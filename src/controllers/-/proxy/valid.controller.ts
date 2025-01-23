@@ -10,14 +10,19 @@ import { Controller } from "@braken/http";
 @Controller.Injectable
 @Controller.Method('GET')
 @Controller.Middleware(JSONErrorWare, LoginWare)
-export class ProxyQueryController extends Controller {
+export default class extends Controller {
   @Controller.Inject(TypeORM)
   private readonly typeorm: TypeORM;
 
   public async response() {
     const Proxy = this.typeorm.connection.manager.getRepository(ProxyEntity);
-    return await Proxy.findBy({
+    const res = await Proxy.findBy({
       invalid: false,
     })
+    return res.map(item => ({
+      id: item.id,
+      description: item.description,
+      address: item.address,
+    }))
   }
 }

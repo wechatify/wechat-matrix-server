@@ -1,5 +1,4 @@
 import JSONErrorWare from "../../../../middlewares/json.ware";
-import HttpBodyWare from "../../../../middlewares/body.ware";
 import LoginWare from "../../../../middlewares/user/login.ware";
 import ApiSDK from "../../../../applications/sdk.app";
 import { Controller } from "@braken/http";
@@ -10,7 +9,7 @@ import { Exception, QRCODE_STATUS } from "wechatify-sdk";
  */
 @Controller.Injectable
 @Controller.Method('GET')
-@Controller.Middleware(JSONErrorWare, HttpBodyWare, LoginWare)
+@Controller.Middleware(JSONErrorWare, LoginWare)
 export default class WechatQueryController extends Controller {
   @Controller.Inject(ApiSDK)
   private readonly sdk: ApiSDK;
@@ -21,16 +20,17 @@ export default class WechatQueryController extends Controller {
   public async response() {
     const res = await this.sdk.instance.checkLogin(this.uuid);
     if (!res) throw new Exception(500, '无效查询');
-    const [status, { info, meta, nickname, avatar, wxid, uuid }] = res;
+    const [status, data] = res;
     if (status === QRCODE_STATUS.SUCCESS) {
-      await this.sdk.online(Date.now(), wxid, uuid || this.uuid, info, meta);
+      await this.sdk.online(Date.now(), data?.wxid, data?.uuid || this.uuid, data?.info, data?.meta);
     }
     return {
       status,
       data: {
-        nickname: nickname || info?.nickname,
-        avatar: avatar || info?.imgHead,
-        wxid,
+        nickname: data?.nickname || data?.info?.nickname,
+        avatar: data?.avatar || data?.info?.imgHead,
+        wxid: data?.wxid,
+        message: data?.message,
       }
     };
   }
