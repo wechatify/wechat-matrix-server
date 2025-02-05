@@ -26,7 +26,9 @@ export default class extends Controller {
     const Wechat = this.typeorm.connection.manager.getRepository(WechatEntity);
     const wechat = await Wechat.findOneBy({ id: this.id });
     if (!wechat) throw new Exception(500, '找不到微信');
-    await this.sdk.instance.logout(wechat.wxid);
+    try {
+      await this.sdk.instance.logout(wechat.wxid);
+    } catch (e) { }
     await this.sdk.offline(Date.now(), wechat.wxid);
     return Date.now();
   }
