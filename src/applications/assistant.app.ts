@@ -15,6 +15,7 @@ export default class Assistant extends Application {
     // req.on('session', session => console.log('+', session));
     // req.setSession('BgAAfmXxOYF3pZMW8j2stsEzzPv/wF1DWuf0ml6rmZqfkVO11VPrDcLO+LX/bDqAQIJXfMit645Aee3xL10ojf4T2ha+T2iuBUSxXnRYRK4=');
     // req.setSession('BgAAD6a3vLyFm5qGsY/Wy9zqeebeL1bMdLAF5FddymXtGbT3Opr3YBGIMhEhM/g2OFvd+bV0ZuDOw0hqEAd/RmGqc1NarIvhMnFJNrVMp58=');
+    // req.setSession('BgAAQq0FhMSDJnxDY7hS+cpBaIXoS00ZMHEANIeexsL4Kj5FanFcTl4ShAfewpQsugR5HuDZv+xY5QU96+XeZSK4JX+JZ/sgpTS9DSbUMR8=');
     // const res = await req.post(`/cgi-bin/mmfinderassistant-bin/post/post_list?_rid=${Date.now()}`, {
     //   currentPage: 1,
     //   pageSize: 5,
