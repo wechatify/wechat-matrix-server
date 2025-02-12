@@ -3,7 +3,7 @@ import t from '@braken/json-schema';
 import RedisCache from '@braken/cache-ioredis';
 import { Application } from '@braken/application';
 
-interface IConfigs {
+export interface IConfigs {
   PLATFORM_NAME: string,
   USER_EXPIRE: number,
   USER_MAIL_CODE_EXPIRE: number,

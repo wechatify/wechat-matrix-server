@@ -31,7 +31,9 @@ export default class WechatDetailController extends Controller {
     }
     return {
       ...wechat,
-      proxy,
+      proxy: {
+        address: proxy?.address
+      },
     }
   }
 }

@@ -78,8 +78,8 @@ importers:
         specifier: ^0.3.20
         version: 0.3.20(ioredis@5.4.2)(ts-node@10.9.2(@types/node@22.10.7)(typescript@5.7.3))
       wechatify-sdk:
-        specifier: ^1.0.12
-        version: 1.0.12
+        specifier: ^1.0.15
+        version: 1.0.15
     devDependencies:
       fix-esm-import-path:
         specifier: ^1.10.1
@@ -965,8 +965,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  wechatify-sdk@1.0.12:
-    resolution: {integrity: sha512-z9VN67bAxlTKY91MM8FM4tEg6kRSydMCfdee+SJK3JbNf47gQ8b19OeK8GVZAiyAaG95kqcE7S4jWnuD7+JDvQ==}
+  wechatify-sdk@1.0.15:
+    resolution: {integrity: sha512-n6+GbD3yHm87eBHAajRioW+9l/n7dGapcMKRpN1mL9FQC6n4CxbVeBcF/dgiFpBj0TDHAoXydVZ+R9ZLAqcJmA==}
 
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
@@ -1936,7 +1936,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  wechatify-sdk@1.0.12:
+  wechatify-sdk@1.0.15:
     dependencies:
       axios: 1.7.9
     transitivePeerDependencies:
