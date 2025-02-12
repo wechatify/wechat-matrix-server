@@ -43,6 +43,7 @@ export default class Assistant extends Application {
     }
     if (this.stacks.has(username)) {
       const cur = this.stacks.get(username);
+      cur.clean();
       this.sdk.instance.assistant.delete(cur.wxid, cur.finder);
       this.stacks.delete(username);
     }
