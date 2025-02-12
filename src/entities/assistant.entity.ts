@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 
-@Entity({ name: 'proxy' })
+@Entity({ name: 'assistant' })
 export default class AssistantEntity {
   @PrimaryGeneratedColumn()
   public id: number;

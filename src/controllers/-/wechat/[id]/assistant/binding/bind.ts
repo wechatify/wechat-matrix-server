@@ -1,18 +1,18 @@
-import JSONErrorWare from "../../../../../middlewares/json.ware";
-import LoginWare from "../../../../../middlewares/user/login.ware";
-import ApiSDK from "../../../../../applications/sdk.app";
+import JSONErrorWare from "../../../../../../middlewares/json.ware";
+import LoginWare from "../../../../../../middlewares/user/login.ware";
+import ApiSDK from "../../../../../../applications/sdk.app";
 import TypeORM from "@braken/typeorm";
-import WechatEntity from "../../../../../entities/wechat.entity";
-import HttpBodyWare from "../../../../../middlewares/body.ware";
-import AssistantEntity from "../../../../../entities/assistant.entity";
-import AssistantCache from "../../../../../caches/assistant.cache";
+import WechatEntity from "../../../../../../entities/wechat.entity";
+import HttpBodyWare from "../../../../../../middlewares/body.ware";
+import AssistantEntity from "../../../../../../entities/assistant.entity";
+import AssistantCache from "../../../../../../caches/assistant.cache";
 import { Exception } from "wechatify-sdk";
 import { Controller } from "@braken/http";
 
 @Controller.Injectable
 @Controller.Method('PUT')
 @Controller.Middleware(JSONErrorWare, HttpBodyWare, LoginWare)
-export class AssistantBindController extends Controller {
+export class AssistantBindingController extends Controller {
   @Controller.Inject(ApiSDK)
   private readonly sdk: ApiSDK;
 

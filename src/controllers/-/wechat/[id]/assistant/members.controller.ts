@@ -1,15 +1,15 @@
 import JSONErrorWare from "../../../../../middlewares/json.ware";
 import LoginWare from "../../../../../middlewares/user/login.ware";
 import ApiSDK from "../../../../../applications/sdk.app";
-import { Exception } from "wechatify-sdk";
-import { Controller } from "@braken/http";
 import TypeORM from "@braken/typeorm";
 import WechatEntity from "../../../../../entities/wechat.entity";
+import { Exception } from "wechatify-sdk";
+import { Controller } from "@braken/http";
 
 @Controller.Injectable
 @Controller.Method('GET')
 @Controller.Middleware(JSONErrorWare, LoginWare)
-export class AssistantListController extends Controller {
+export default class AssistantMembersController extends Controller {
   @Controller.Inject(ApiSDK)
   private readonly sdk: ApiSDK;
 

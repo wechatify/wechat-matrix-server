@@ -34,7 +34,7 @@ export default class Assistant extends Application {
     }
   }
 
-  private async removeOne(username: string) {
+  public async remove(username: string) {
     const Assistant = this.typeorm.connection.manager.getRepository(AssistantEntity);
     const assistant = await Assistant.findOneBy({ username });
     if (assistant) {
@@ -42,11 +42,13 @@ export default class Assistant extends Application {
       await this.AssistantCache.$delete({ username });
     }
     if (this.stacks.has(username)) {
+      const cur = this.stacks.get(username);
+      this.sdk.instance.assistant.delete(cur.wxid, cur.finder);
       this.stacks.delete(username);
     }
   }
 
-  public async get(username: string) {
+  public async use(username: string) {
     if (this.stacks.has(username)) {
       return this.stacks.get(username);
     }
@@ -55,9 +57,13 @@ export default class Assistant extends Application {
     const current = this.sdk.instance.assistant.use(res.wxid, username);
     current.setSession(res.session);
     current.on('session', session => this.saveSession(username, session).catch(e => this.logger.error(e)));
-    current.on('disconnect', () => this.removeOne(username).catch(e => this.logger.error(e)));
+    current.on('disconnect', () => this.remove(username).catch(e => this.logger.error(e)));
     this.stacks.set(username, current);
     return current;
+  }
+
+  public get(username: string) {
+    return this.stacks.get(username);
   }
 
   public async initialize() {
