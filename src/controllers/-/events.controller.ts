@@ -1,3 +1,4 @@
+import Logger from "@braken/logger";
 import ApiSDK from "../../applications/sdk.app";
 import HttpBodyWare from "../../middlewares/body.ware";
 import PlainErrorWare from "../../middlewares/plain.ware";
@@ -14,8 +15,11 @@ export default class extends Controller {
   @Controller.Inject(ApiSDK)
   private readonly sdk: ApiSDK;
 
+  @Controller.Inject(Logger)
+  private readonly logger: Logger;
+
   public async response() {
-    console.log('event.body', this.body)
+    this.logger.info('+', 'webhook', this.body?.payload);
     this.sdk.instance.receive(this.body);
     return Date.now();
   }
