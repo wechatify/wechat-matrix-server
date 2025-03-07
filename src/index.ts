@@ -34,7 +34,7 @@ export default (props: Props) => BootStrap(async (ctx, logger) => {
       resolve(__dirname, './entities/*.entity.{js,ts}'),
     ],
     synchronize: true,
-    logging: false,
+    logging: env === 'development',
   });
 
   await ctx.use(Redis);
